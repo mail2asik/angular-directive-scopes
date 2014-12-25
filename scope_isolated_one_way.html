@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="testDirectives">
+
+<head>
+  <script src="https://code.angularjs.org/1.3.2/angular.min.js"></script>
+  <script>
+	angular.module('testDirectives', []);
+
+	angular.module('testDirectives').controller('scopeSample', ['$scope', function($scope) {
+	  $scope.customer = {
+		name: 'John Smith',
+		address: '101, Clinton Road',
+		age:28
+	  };
+	  
+	  $scope.country = "United States";
+	}]);
+
+	angular.module('testDirectives').directive('myCustomer', function() {
+	  return {
+		scope:{
+			customer: '=',
+			country: '@'
+		},
+		templateUrl: 'my-customer.html',
+	  };
+	});
+
+  </script>
+  <style>
+  .mainDiv{
+	border: 1px solid green;
+	padding:2px;
+  }
+  .directiveDiv{
+	border: 1px solid red;
+	margin:20px;
+	padding:2px;
+  }
+  strong{
+	text-decoration:underline;
+  }
+  </style>
+</head>
+
+<body>
+
+  <div ng-controller="scopeSample" class="mainDiv">
+	<strong>Parent Scope:</strong><br /><br />
+	Country: <input type="text" ng-model="country" /><br />
+    <my-customer customer="customer" country="{{country}}"></my-customer><br />
+  </div>
+  
+  <script type="text/ng-template" id="my-customer.html">
+	<div class="directiveDiv">
+		<strong>Directive Scope:</strong><br /><br />
+		Name: {{customer.name}}<br />
+		Address: {{customer.address}}<br/>
+		Age: {{customer.age}}<br />
+		Country: <input type="text" ng-model="country" />
+	</div>
+  </script>
+  
+</body>
+
+</html>
